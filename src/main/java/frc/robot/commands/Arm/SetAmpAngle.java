@@ -13,18 +13,15 @@ public class SetAmpAngle extends Command{
     }
     @Override
     public void initialize() {
-        // TODO Auto-generated method stub
         super.initialize();
     }
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
         super.execute();
         _arm.setArmPosition(Constants.Arm.AMP_SCORING_ANGLE);
     }
     @Override
     public boolean isFinished() {
-        // TODO Auto-generated method stub
         return (Constants.Arm.AMP_SCORING_ANGLE - Constants.Arm.TOLLERENCE < _arm.getAngle() || Constants.Arm.AMP_SCORING_ANGLE + Constants.Arm.TOLLERENCE > _arm.getAngle());
     }
     
