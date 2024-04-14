@@ -5,6 +5,9 @@
 //Linus Krenkel is more mature and responsable then jackjack
 package frc.robot;
 
+import static frc.robot.Constants.Drivetrain.STEER_POSITION_FACTOR;
+
+import com.revrobotics.CANSparkBase.IdleMode;
 
 public class Constants {
 
@@ -24,6 +27,9 @@ public class Constants {
     public static final double TRANSLATION_DEADBAND = 0.05;
     public static final double ROTATION_DEADBAND = 0.05;
 
+    public static final double WHEEL_DIAMETER = 0.0762;
+
+
     public static final double TRIGGER_DEAD_ZONE = 0.2; // Zero to one
     public static final double MANUAL_ARM_MOVE_SPEED = 0.0075;
 
@@ -31,25 +37,59 @@ public class Constants {
     public static final double MIN_TURNING_SPEED = 0.05; // Radians per second
     public static final double MAX_TURING_SPEED = 0.8; // Radians per second
 
+    public static final boolean IS_INVERTED = true;
+
+    public static final int PINION_TEETH = 14;
+
+    public static final double MOTOR_MAX_OUTPUT = 1;
+    public static final double MOTOR_MIN_OUTPUT = -1;
+
+    public static final double FREE_SPEED_RPS = 5676 / 60;
+
+    public static final double DRIVING_REDUCTION = (45.0 * 22) / (PINION_TEETH * 15);
+  
+
+ 
+    public static final double DRIVE_POSITION_FACTOR = ((WHEEL_DIAMETER * Math.PI)
+    / DRIVING_REDUCTION); // meters 
+
+    public static final double DRIVE_VELOCITY_FACTOR = ((WHEEL_DIAMETER * Math.PI)
+    / DRIVING_REDUCTION) / 60.0; // meters per second
+
+
+    public static final double STEER_POSITION_FACTOR = (2 * Math.PI); // radians
+    public static final double STEER_VELOCITY_FACTOR = (2 * Math.PI) / 60.0; // radians per second
+
+    public static final double POSITION_WRAPPING_MIN_INPUT = 0; // radians
+    public static final double POSITION_WRAPPING_MAX_INPUT = STEER_POSITION_FACTOR; // radians
+
+    public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
+    public static final IdleMode STEER_IDLE_MODE = IdleMode.kBrake;
+    
+
+
     // Robot Physical Constants
     public static final double WHEELBASE = 0.6985; // Meters, distance between front and back
     public static final double TRACKWIDTH = 0.6223; // Meters, distance between left and right
  
 
     // Steering PID
-    public static final double STEER_KP = 1.8;
-    public static final double STEER_KI = 0.0;
-    public static final double STEER_KD = 0.05;
+    public static final double DRIVE_KP = 1.8;
+    public static final double DRIVE_KI = 0.0;
+    public static final double DRIVE_KD = 0.05;
+    public static final double DRIVE_FF = 1 / FREE_SPEED_RPS;
+
 
     // Turning PID
-    public static final double TURNING_KP = 2.0;
-    public static final double TURNING_KI = 0.000;
-    public static final double TURNING_KD = .2;
+    public static final double STEER_KP = 2.0;
+    public static final double STEER_KI = 0.000;
+    public static final double STEER_KD = .2;
+    public static final double STEER_FF = 0.0;
 
     // Autonomous Drive PID
-    public static final double DRIVE_KP = 0.2;
-    public static final double DRIVE_KI = 0.0;
-    public static final double DRIVE_KD = 0.00;
+    public static final double AUTO_KP = 0.2;
+    public static final double AUTO_KI = 0.0;
+    public static final double AUTO_KD = 0.00;
 
      // Autonomous Constants
     public static final double AUTONOMOUS_POSITION_MAX_ERROR = 0.04; // Meters
