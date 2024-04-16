@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants;
@@ -30,13 +31,16 @@ public final class SwerveModule {
     private SwerveModuleState _desiredModuleState = new SwerveModuleState(0.0, new Rotation2d());
 
     private double _chassisAngularOffset;
+     
+    private final Translation2d _moduleLoaction;
 
 
 
-    public SwerveModule(int steerPort, int drivePort, double offset) {
-        _chassisAngularOffset = offset;
+    public SwerveModule(int steerPort, int drivePort, ModuleConfiguration config) {
+        _chassisAngularOffset = config.encoderOffset;
         _steerMotor = new CANSparkMax(steerPort, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
         _driveMotor = new CANSparkMax(drivePort, com.revrobotics.CANSparkLowLevel.MotorType.kBrushless);
+        _moduleLoaction = config.position;
 
         _driveMotor.restoreFactoryDefaults();
         _steerMotor.restoreFactoryDefaults();
@@ -109,5 +113,18 @@ public final class SwerveModule {
 
     public SwerveModuleState getSwerveModuleState(){
         return new SwerveModuleState(_driveEncoder.getVelocity(), new Rotation2d(_steerAbsoluteEncoder.getPosition()- _chassisAngularOffset));
+    }
+    public Translation2d getSwerveModuleLocation(){
+        return _moduleLoaction;
+    }
+    public static class ModuleConfiguration {
+        public String moduleName = "";
+
+        public Translation2d position = new Translation2d();
+
+        public double encoderOffset = 0.0;
+        public boolean encoderInverted = false;
+
+        public String canBus = "CANivore";
     }
 }

@@ -9,7 +9,15 @@ import static frc.robot.Constants.Drivetrain.STEER_POSITION_FACTOR;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+import frc.robot.Utils.SwerveSetpointGenerator.KinematicLimits;
+import frc.robot.subsystems.SwerveModule.ModuleConfiguration;
+
+
 public class Constants {
+    public static final double EPSILON = 1e-9;
+    public static final double UPDATE_PERIOD = 0.02;
 
     public static class Drivetrain{
     // Steering Offsets
@@ -20,6 +28,8 @@ public class Constants {
     public static final double BL_STEER_OFFSET = 1.25;
     public static final double RELATIVE_ENCODER_CONVERSION = 46.5; //93/2 I think default
     public static final double FULL_ROTATION = 1; // 2
+
+    public static final double BUMP_DEGREES = 7.0;
 
      // Driver Settings
     public static final double DRIVE_SPEED = 1.9;
@@ -44,7 +54,59 @@ public class Constants {
     public static final double MOTOR_MAX_OUTPUT = 1;
     public static final double MOTOR_MIN_OUTPUT = -1;
 
+    public static final double HEADING_TOLERANCE = Units.degreesToRadians(1.5); // rad
     public static final double FREE_SPEED_RPS = 5676 / 60;
+
+     // Robot Physical Constants
+    public static final double WHEELBASE = 0.6985; // Meters, distance between front and back
+    public static final double TRACKWIDTH = 0.6223; // Meters, distance between left and right
+
+    public static final double SWERVE_NS_POS = WHEELBASE / 2;
+    public static final double SWERVE_WE_POS = TRACKWIDTH / 2;
+
+   public static final ModuleConfiguration SOUTH_EAST_CONFIG = new ModuleConfiguration();
+
+        static {
+            SOUTH_EAST_CONFIG.moduleName = "South East";
+            
+            SOUTH_EAST_CONFIG.position = new Translation2d(-SWERVE_NS_POS, -SWERVE_WE_POS); // -,-
+
+            SOUTH_EAST_CONFIG.encoderInverted = false;
+            SOUTH_EAST_CONFIG.encoderOffset = -0.48828125;
+        }
+
+        public static final ModuleConfiguration NORTH_EAST_CONFIG = new ModuleConfiguration();
+
+        static {
+            NORTH_EAST_CONFIG.moduleName = "North East";
+         
+            NORTH_EAST_CONFIG.position = new Translation2d(SWERVE_NS_POS, -SWERVE_WE_POS); // +,-
+
+            NORTH_EAST_CONFIG.encoderInverted = false;
+            NORTH_EAST_CONFIG.encoderOffset = 0.28564453125;
+        }
+
+        public static final ModuleConfiguration NORTH_WEST_CONFIG = new ModuleConfiguration();
+
+        static {
+            NORTH_WEST_CONFIG.moduleName = "North West";
+          
+            NORTH_WEST_CONFIG.position = new Translation2d(SWERVE_NS_POS, SWERVE_WE_POS); // +,+
+
+            NORTH_WEST_CONFIG.encoderInverted = false;
+            NORTH_WEST_CONFIG.encoderOffset = -0.407470703125;
+        }
+
+        public static final ModuleConfiguration SOUTH_WEST_CONFIG = new ModuleConfiguration();
+
+        static {
+            SOUTH_WEST_CONFIG.moduleName = "South West";
+          
+            SOUTH_WEST_CONFIG.position = new Translation2d(-SWERVE_NS_POS, SWERVE_WE_POS); // -,+
+
+            SOUTH_WEST_CONFIG.encoderInverted = false;
+            SOUTH_WEST_CONFIG.encoderOffset = -0.497314453125;
+        }
 
     public static final double DRIVING_REDUCTION = (45.0 * 22) / (PINION_TEETH * 15);
   
@@ -68,10 +130,7 @@ public class Constants {
     
 
 
-    // Robot Physical Constants
-    public static final double WHEELBASE = 0.6985; // Meters, distance between front and back
-    public static final double TRACKWIDTH = 0.6223; // Meters, distance between left and right
- 
+   
 
     // Steering PID
     public static final double DRIVE_KP = 1.8;
@@ -93,6 +152,7 @@ public class Constants {
 
      // Autonomous Constants
     public static final double AUTONOMOUS_POSITION_MAX_ERROR = 0.04; // Meters
+    public static final KinematicLimits DRIVE_KINEMATIC_LIMITS = null;
 
     }
     public static class Shooter{
