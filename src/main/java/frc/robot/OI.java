@@ -42,7 +42,7 @@ public class OI {
 
 public OI(){
 
-    _driverGamepad = new Gamepad(0);
+    _driverGamepad = new Gamepad(1);
    
 
     _povButtonLeft = new Trigger(() -> _driverGamepad.getPOV() == 270);

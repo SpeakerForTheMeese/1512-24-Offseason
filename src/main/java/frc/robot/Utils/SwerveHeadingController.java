@@ -90,9 +90,9 @@ public class SwerveHeadingController {
                 break;
             case ON:
                 _PIDController.setPID(
-                        SmartDashboard.getNumber("HeadingController/kP", Constants.DriveTrain.HEADING_kP),
-                        SmartDashboard.getNumber("HeadingController/kI", Constants.DriveTrain.HEADING_kI),
-                        SmartDashboard.getNumber("HeadingController/kD", Constants.DriveTrain.HEADING_kD));
+                        SmartDashboard.getNumber("HeadingController/kP", Constants.Drivetrain.HEADING_kP),
+                        SmartDashboard.getNumber("HeadingController/kI", Constants.Drivetrain.HEADING_kI),
+                        SmartDashboard.getNumber("HeadingController/kD", Constants.Drivetrain.HEADING_kD));
                 power = _PIDController.calculate(heading.getRadians(), _targetHeading.getRadians());
                 break;
             default:

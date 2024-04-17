@@ -6,6 +6,8 @@ package frc.robot;
 
 
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -36,6 +38,7 @@ public class RobotContainer {
   private Indexer _indexer;
   private Robot _robot;
   private Arm _arm;
+  private AHRS _gyro;
 
   private OI _oi;
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -68,11 +71,12 @@ public class RobotContainer {
   }
   public void init(){
     _indexer = new Indexer();
-    _drivetrain = new Drivetrain();
+    _drivetrain = new Drivetrain(_gyro);
     _shooter = new Shooter();
     _intake = new Intake();
     _arm = new Arm();
     _oi = new OI();
+
 
     _arm.setDefaultCommand(new IdleArm(_arm));
     _drivetrain.setDefaultCommand(new Drive(_oi, _drivetrain));

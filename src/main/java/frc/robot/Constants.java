@@ -153,6 +153,10 @@ public class Constants {
      // Autonomous Constants
     public static final double AUTONOMOUS_POSITION_MAX_ERROR = 0.04; // Meters
     public static final KinematicLimits DRIVE_KINEMATIC_LIMITS = null;
+    public static final long DISABLE_TIME = 500;
+    public static final double HEADING_kI = 0;
+    public static final double HEADING_kP = 0;
+    public static final double HEADING_kD = 0;
 
     }
     public static class Shooter{
