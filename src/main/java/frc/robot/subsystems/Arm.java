@@ -34,6 +34,8 @@ public class Arm extends SubsystemBase {
         _angleController = new PIDController(SHOOTING_ANGLE_KP, SHOOTING_ANGLE_KI, SHOOTING_ANGLE_KD);
 
         goalAngle = ARM_INTAKE_ANGLE;  
+        _encoder.setPosition(.25);
+        
     }
     public void updateDashBoard(){
         SmartDashboard.putBoolean("Is Lowest", isLowestAngle());

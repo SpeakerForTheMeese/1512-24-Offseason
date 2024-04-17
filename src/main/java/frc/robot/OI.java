@@ -12,6 +12,7 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Utils.Helpers.*;
+import frc.robot.commands.SimpleIntake;
 import frc.robot.commands.Arm.ClimbUp;
 import frc.robot.commands.Arm.SetAmpAngle;
 import frc.robot.commands.Arm.SetIntakeAngle;
@@ -66,7 +67,7 @@ public void initializeButtons(
     Arm arm
 ){
 
-    _driverLeftTrigger.whileTrue(new IntakeNote(intake, indexer, arm));
+    _driverLeftTrigger.whileTrue(new SimpleIntake(intake, indexer));
     _driverRightTrigger.whileTrue(new ShootWoofer(arm, shooter, indexer));
     //this is where we map commands
 
@@ -96,10 +97,18 @@ public double getRotationX() {
     speed = applyDeadband(speed, Constants.Drivetrain.ROTATION_DEADBAND);
     return speed;
 }
-private double applyDeadband(double speed, double rotationDeadband) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'applyDeadband'");
+public static double applyDeadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+        if (value > 0.0) {
+            return (value - deadband) / (1.0 - deadband);
+        } else {
+            return (value + deadband) / (1.0 - deadband);
+        }
+    } else {
+        return 0.0;
+    }
 }
+
 
 protected double getSpeedFromAxis(Joystick gamepad, int axisNumber) {
         return gamepad.getRawAxis(axisNumber);
