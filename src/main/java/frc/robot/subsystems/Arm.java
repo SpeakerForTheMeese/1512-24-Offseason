@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 
 import static frc.robot.Constants.Arm.*;
@@ -22,7 +23,7 @@ public class Arm extends SubsystemBase {
 
     private final PIDController _angleController;
     private double goalAngle;
-
+    private double motorOut;
 
     public Arm(){
         _encoder = new CANcoder(RobotMap.CAN.ANGLE_ALIGNMENT_ENCODER_CAN);
@@ -42,6 +43,8 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putBoolean("Is Highest", isHighestAngle());
 
         SmartDashboard.putNumber("Angle", getAngle());
+        SmartDashboard.putNumber("Motor Out", motorOut);
+        SmartDashboard.putNumber("goal angle", getGoalAngle());
   
     }
     public boolean isLowestAngle(){
@@ -63,6 +66,7 @@ public class Arm extends SubsystemBase {
         _motor.set(0);
     }
     public void setMotorOut(double speed){
+        motorOut = speed;
         _motor.set(speed);
     }
     public boolean isInverted(){
@@ -76,7 +80,7 @@ public class Arm extends SubsystemBase {
     }
     public void setArmPosition(double position){
         goalAngle = position;
-        if((goalAngle > getAngle() && !isHighestAngle()) || (goalAngle > getAngle() && !isLowestAngle())) {
+        while ((goalAngle > getAngle() && !isHighestAngle()) || (goalAngle > getAngle() && !isLowestAngle())) {
             setMotorOut(getPIDasMotorOut(_angleController.calculate(goalAngle)));  
         }
     }

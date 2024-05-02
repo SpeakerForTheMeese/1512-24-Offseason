@@ -34,7 +34,7 @@ public class Drive extends Command{
         double rightX = -_oi.getRotationX();
        
 
-        if (rightX > Constants.Drivetrain.ROTATION_DEADBAND) {
+        if (rightX > Constants.Drivetrain.ROTATION_DEADBAND || rightX < -Constants.Drivetrain.ROTATION_DEADBAND) {
             _drivetrain.rotate(-rightX);
         }
         else {
